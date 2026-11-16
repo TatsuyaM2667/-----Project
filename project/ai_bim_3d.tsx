@@ -15,7 +15,11 @@ import {
   ArrowLeft,
   Play,
   Pause,
-  Video
+  Video,
+  PanelLeft,
+  PanelRight,
+  MoreHorizontal,
+  X
 } from 'lucide-react';
 import {
   ProCadFloorPlanView,
@@ -1222,6 +1226,21 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
 
   const [showJsonDrawer, setShowJsonDrawer] = useState<boolean>(false);
   const [showSvgModal, setShowSvgModal] = useState<boolean>(false);
+  // 中央のビューを広く使うため、左右のパネルとその他メニューは必要な時だけ開く
+  const [leftOpen, setLeftOpen] = useState<boolean>(false);
+  const [rightOpen, setRightOpen] = useState<boolean>(false);
+  const [moreOpen, setMoreOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setLeftOpen(false);
+      setRightOpen(false);
+      setMoreOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const [repairLogs, setRepairLogs] = useState<string[]>([]);
   const [cameraPreset, setCameraPreset] = useState<CameraPreset>('ISO');
   const [studioViewMode, setStudioViewMode] = useState<StudioViewMode>('SUBSURFACE_CAD');
@@ -2446,78 +2465,140 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
           </button>
         </div>
 
-        {/* シナリオ選択・デモ再生・CAD/JSONボタン */}
+        {/* パネル切替・デモ・その他メニュー */}
         <div className="flex items-center gap-2">
-          <select
-            value={scenarioKey}
-            onChange={(e) => handleSelectScenario(e.target.value as ScenarioKey)}
-            className="h-10 bg-surface ring-1 ring-white/15 text-slate-200 text-xs rounded-xl px-2.5 outline-none cursor-pointer hover:bg-raised transition"
+          <button
+            onClick={() => setLeftOpen((v) => !v)}
+            aria-expanded={leftOpen}
+            className={`h-10 flex items-center gap-1.5 px-3 rounded-lg text-xs font-semibold ring-1 transition cursor-pointer ${
+              leftOpen ? 'bg-cyan-400/15 ring-cyan-400/50 text-cyan-300' : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
+            }`}
           >
-            <optgroup label="一般住宅（戸建て・マイホーム）" className="bg-surface">
-              <option value="family_house_4ldk">10×9.5m 木造2F 4LDK戸建て住宅</option>
-              <option value="garage_house_3f">10×10m 3F ガレージ＆中庭住宅</option>
-            </optgroup>
-            <optgroup label="オフィス・商業・研究複合建築" className="bg-surface">
-              <option value="cafe_office">12×10m カフェ＆オフィスビル</option>
-              <option value="clinic_residence">14×10m クリニック＆レジデンス</option>
-              <option value="research_lab">12×12m バイオ研究ラボ棟</option>
-            </optgroup>
-          </select>
+            <PanelLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">設定</span>
+          </button>
+          <button
+            onClick={() => setRightOpen((v) => !v)}
+            aria-expanded={rightOpen}
+            className={`h-10 flex items-center gap-1.5 px-3 rounded-lg text-xs font-semibold ring-1 transition cursor-pointer ${
+              rightOpen ? 'bg-cyan-400/15 ring-cyan-400/50 text-cyan-300' : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
+            }`}
+          >
+            <PanelRight className="w-4 h-4" />
+            <span className="hidden sm:inline">部屋</span>
+          </button>
 
           <button
             onClick={() => setIsAutoTour(!isAutoTour)}
-            className={`h-10 flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold ring-1 transition cursor-pointer ${
-              isAutoTour
-                ? 'bg-cyan-400 ring-cyan-300 text-on-accent'
-                : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
+            className={`h-10 flex items-center gap-1.5 px-3 rounded-lg text-xs font-semibold ring-1 transition cursor-pointer ${
+              isAutoTour ? 'bg-cyan-400 ring-cyan-300 text-on-accent' : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
             }`}
           >
             {isAutoTour ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-cyan-400" />}
-            <span className="hidden sm:inline">{isAutoTour ? 'ツアー停止' : '3D地下X線デモ'}</span>
+            <span className="hidden sm:inline">{isAutoTour ? 'デモ停止' : 'デモ'}</span>
           </button>
 
-          <button
-            onClick={handleRecordDemoVideo}
-            disabled={isRecording}
-            className={`h-10 hidden sm:flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold ring-1 transition cursor-pointer ${
-              isRecording
-                ? 'bg-red-500/20 ring-red-400 text-red-200'
-                : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
-            }`}
-          >
-            <Video className={`w-3.5 h-3.5 ${isRecording ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`} />
-            {isRecording ? `録画中 (${recordingSecLeft}s)` : '動画保存'}
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setMoreOpen((v) => !v)}
+              aria-expanded={moreOpen}
+              aria-haspopup="menu"
+              aria-label="その他のメニュー"
+              className="h-10 w-10 grid place-items-center rounded-lg ring-1 bg-surface ring-white/15 text-slate-200 hover:bg-raised transition cursor-pointer"
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+            {moreOpen && (
+              <>
+                {/* メニュー外のクリックで閉じる */}
+                <div className="fixed inset-0 z-40" onClick={() => setMoreOpen(false)} />
+                <div
+                  role="menu"
+                  className="absolute right-0 top-12 z-50 w-72 rounded-xl bg-surface ring-1 ring-white/15 shadow-2xl p-2 space-y-1 animate-fade-in"
+                >
+                  <div className="px-3 pt-1.5 pb-1 text-xs text-slate-400">建物の種類</div>
+                  <div className="px-1 pb-2">
+                <select
+                  value={scenarioKey}
+                  onChange={(e) => handleSelectScenario(e.target.value as ScenarioKey)}
+                  className="w-full h-10 bg-surface ring-1 ring-white/15 text-slate-200 text-xs rounded-xl px-2.5 outline-none cursor-pointer hover:bg-raised transition"
+                >
+                  <optgroup label="一般住宅（戸建て・マイホーム）" className="bg-surface">
+                    <option value="family_house_4ldk">10×9.5m 木造2F 4LDK戸建て住宅</option>
+                    <option value="garage_house_3f">10×10m 3F ガレージ＆中庭住宅</option>
+                  </optgroup>
+                  <optgroup label="オフィス・商業・研究複合建築" className="bg-surface">
+                    <option value="cafe_office">12×10m カフェ＆オフィスビル</option>
+                    <option value="clinic_residence">14×10m クリニック＆レジデンス</option>
+                    <option value="research_lab">12×12m バイオ研究ラボ棟</option>
+                  </optgroup>
+                </select>
+                  </div>
+                  <div className="h-px bg-white/10 mx-1" />
+                  <button
+                    role="menuitem"
+                    onClick={() => {
+                      setMoreOpen(false);
+                      handleRecordDemoVideo();
+                    }}
+                    disabled={isRecording}
+                    className="w-full h-10 px-3 rounded-lg flex items-center gap-2.5 text-sm text-slate-200 hover:bg-white/10 transition cursor-pointer disabled:opacity-50"
+                  >
+                    <Video className={`w-4 h-4 ${isRecording ? 'text-red-400 animate-pulse' : 'text-slate-400'}`} />
+                    {isRecording ? `録画中 (${recordingSecLeft}s)` : '動画を保存'}
+                  </button>
+                  <button
+                    role="menuitem"
+                    onClick={() => {
+                      setMoreOpen(false);
+                      setShowSvgModal(true);
+                    }}
+                    className="w-full h-10 px-3 rounded-lg flex items-center gap-2.5 text-sm text-slate-200 hover:bg-white/10 transition cursor-pointer disabled:opacity-50"
+                  >
+                    <FileText className="w-4 h-4 text-slate-400" />
+                    図面を書き出す（SVG）
+                  </button>
+                  <button
+                    role="menuitem"
+                    onClick={() => {
+                      setMoreOpen(false);
+                      setShowJsonDrawer(!showJsonDrawer);
+                    }}
+                    className="w-full h-10 px-3 rounded-lg flex items-center gap-2.5 text-sm text-slate-200 hover:bg-white/10 transition cursor-pointer disabled:opacity-50"
+                  >
+                    <Code className="w-4 h-4 text-slate-400" />
+                    {showJsonDrawer ? 'データ（JSON）を閉じる' : 'データ（JSON）を見る'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
 
-          <button
-            onClick={() => setShowSvgModal(true)}
-            className="h-10 flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold ring-1 bg-surface ring-white/15 text-slate-200 hover:bg-raised transition cursor-pointer"
-          >
-            <FileText className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="hidden sm:inline">SVG出力</span>
-          </button>
-
-          <button
-            onClick={() => setShowJsonDrawer(!showJsonDrawer)}
-            className={`h-10 hidden lg:flex items-center gap-1.5 px-3 rounded-xl text-xs font-semibold ring-1 transition cursor-pointer ${
-              showJsonDrawer
-                ? 'bg-cyan-400 ring-cyan-300 text-on-accent'
-                : 'bg-surface ring-white/15 text-slate-200 hover:bg-raised'
-            }`}
-          >
-            <Code className="w-3.5 h-3.5" />
-            JSON
-          </button>
-
-          <ThemeToggle className="h-10 w-10 shrink-0 rounded-xl flex items-center justify-center ring-1 bg-surface ring-white/15 text-slate-200 hover:bg-raised transition cursor-pointer" />
+          <ThemeToggle className="h-10 w-10 shrink-0 rounded-lg grid place-items-center ring-1 bg-surface ring-white/15 text-slate-200 hover:bg-raised transition cursor-pointer" />
         </div>
       </header>
 
       {/* ==================== メインワークスペース ==================== */}
       <div className="flex-1 flex overflow-hidden relative">
         {/* 左サイドパネル：地下埋設AI推論＆レイヤー制御 */}
-        <aside className="w-76 lg:w-80 hidden md:flex bg-surface border-r border-white/10 flex-col justify-between p-4 overflow-y-auto z-10">
-          <div className="space-y-4">
+        <aside
+          inert={!leftOpen}
+          aria-label="設定"
+          className={`absolute inset-y-0 left-0 w-80 max-w-[88vw] flex bg-surface border-r border-white/10 flex-col justify-between p-5 overflow-y-auto z-30 shadow-2xl transition-transform duration-200 ${
+            leftOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="space-y-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-white">設定</h2>
+              <button
+                onClick={() => setLeftOpen(false)}
+                aria-label="設定を閉じる"
+                className="w-9 h-9 grid place-items-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
             {/* 1. 土地・過去建物履歴・周辺環境からの地下埋設AI推論パネル */}
             <div className="bg-canvas ring-1 ring-cyan-400/40 rounded-2xl p-3.5 space-y-3">
               <div className="flex items-center justify-between border-b border-white/10 pb-2">
@@ -2826,9 +2907,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
                 roadDir={frontRoadDir}
                 surroundingType={surroundingType}
                 realContext={initialLand?.context}
-                onChangePrevType={setPrevBuildingType}
-                onChangeRoadDir={setFrontRoadDir}
-                onChangeSurrounding={setSurroundingType}
+                onEditConditions={() => setLeftOpen(true)}
               />
             </div>
           )}
@@ -2840,9 +2919,10 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
                 blueprint={buildingScenarioToStratumSchema(buildingData)}
                 floorFilter={activeFloorFilter === 'ALL' ? 'ALL' : (activeFloorFilter as 1 | 2 | 3)}
                 selectedRoomId={selectedItem?.id ?? null}
-                onSelectRoom={(fl, roomId) =>
-                  setSelectedItem({ type: 'room', floorLevel: fl, id: roomId })
-                }
+                onSelectRoom={(fl, roomId) => {
+                  setSelectedItem({ type: 'room', floorLevel: fl, id: roomId });
+                  setRightOpen(true);
+                }}
               />
             </div>
           )}
@@ -2861,10 +2941,10 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
             <div className="flex flex-wrap items-center gap-2 pointer-events-auto">
               <div className="bg-canvas/95 backdrop-blur-md ring-1 ring-white/15 rounded-2xl p-1 flex items-center gap-1 shadow-xl">
                 {[
-                  { id: 'SUBSURFACE_CAD' as const, label: '① 地下埋設図' },
-                  { id: '3D_BIM' as const, label: '② 3D 地下埋設X線・透視' },
-                  { id: '2D_CAD' as const, label: '③ 2D 新築設計図・間取り図' },
-                  { id: 'AXON_STACK' as const, label: '④ 階層ゾーニング図' }
+                  { id: 'SUBSURFACE_CAD' as const, label: '地下埋設図' },
+                  { id: '3D_BIM' as const, label: '3D' },
+                  { id: '2D_CAD' as const, label: '間取り図' },
+                  { id: 'AXON_STACK' as const, label: '階層図' }
                 ].map((m) => (
                   <button
                     key={m.id}
@@ -2883,9 +2963,9 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
               {studioViewMode === '3D_BIM' && (
                 <div className="bg-canvas/95 backdrop-blur-md ring-1 ring-white/15 rounded-2xl p-1 flex items-center gap-1 shadow-xl">
                   {[
-                    { id: 'ISO' as const, label: '鳥瞰アイソメ' },
-                    { id: 'TOP' as const, label: '平面 (Top)' },
-                    { id: 'FRONT' as const, label: '地下断面 (Front)' }
+                    { id: 'ISO' as const, label: '鳥瞰' },
+                    { id: 'TOP' as const, label: '真上' },
+                    { id: 'FRONT' as const, label: '断面' }
                   ].map((v) => (
                     <button
                       key={v.id}
@@ -2936,6 +3016,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
               </div>
             </div>
 
+            {(studioViewMode === 'SUBSURFACE_CAD' || studioViewMode === '3D_BIM') && (
             <div className="bg-canvas/95 backdrop-blur-md ring-1 ring-white/15 rounded-2xl px-3.5 py-2 hidden sm:flex items-center gap-4 text-xs text-slate-300 pointer-events-auto shadow-xl">
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
@@ -2950,19 +3031,31 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
                 残置杭・越境リスク
               </span>
             </div>
+            )}
           </div>
         </main>
 
         {/* ==================== 右サイドパネル：座標・寸法インスペクター ==================== */}
-        <aside className="w-76 lg:w-80 hidden xl:flex bg-surface border-l border-white/10 p-4 flex-col justify-between overflow-y-auto z-10">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <div className="flex items-center gap-2">
+        <aside
+          inert={!rightOpen}
+          aria-label="部屋の詳細"
+          className={`absolute inset-y-0 right-0 w-80 max-w-[88vw] flex bg-surface border-l border-white/10 p-5 flex-col justify-between overflow-y-auto z-30 shadow-2xl transition-transform duration-200 ${
+            rightOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="space-y-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-white flex items-center gap-2">
                 <Move className="w-4 h-4 text-cyan-400" />
-                <h2 className="text-xs font-bold text-white">
-                  部屋座標・寸法インスペクター
-                </h2>
-              </div>
+                部屋の詳細
+              </h2>
+              <button
+                onClick={() => setRightOpen(false)}
+                aria-label="部屋の詳細を閉じる"
+                className="w-9 h-9 grid place-items-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
             {activeRoomObj ? (
@@ -3142,7 +3235,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
 
         {/* ==================== 3層統合BIM座標データ (JSON) インスペクター ==================== */}
         {showJsonDrawer && (
-          <div className="absolute inset-y-0 right-0 xl:right-80 w-96 bg-surface border-l border-white/15 p-4 flex flex-col z-30 shadow-2xl">
+          <div className="absolute inset-y-0 right-0 w-96 max-w-full bg-surface border-l border-white/15 p-4 flex flex-col z-30 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
                 <h3 className="text-xs font-bold text-white flex items-center gap-1.5">

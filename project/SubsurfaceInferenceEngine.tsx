@@ -1163,18 +1163,14 @@ export function SubsurfaceAnalyzerView({
   roadDir,
   surroundingType,
   realContext,
-  onChangePrevType,
-  onChangeRoadDir,
-  onChangeSurrounding
+  onEditConditions
 }: {
   blueprint: StratumArchBIMSchema;
   prevType: PreviousBuildingType;
   roadDir: FrontRoadDirection;
   surroundingType: SurroundingContextType;
   realContext?: RealSiteContext;
-  onChangePrevType: (t: PreviousBuildingType) => void;
-  onChangeRoadDir: (d: FrontRoadDirection) => void;
-  onChangeSurrounding: (s: SurroundingContextType) => void;
+  onEditConditions: () => void;
 }) {
   const [showNewBuildingOverlay, setShowNewBuildingOverlay] = useState<boolean>(true);
 
@@ -1183,91 +1179,46 @@ export function SubsurfaceAnalyzerView({
 
   return (
     <div className="w-full h-full flex flex-col bg-canvas overflow-hidden">
-      {/* 上部コントロールバー：土地の過去履歴・前面道路・周辺環境の切り替え */}
-      <div className="px-4 py-2.5 bg-surface border-b border-white/10 flex flex-wrap items-center justify-between gap-2 z-10">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-slate-300">① 前回建っていた建物:</span>
-            <select
-              value={prevType}
-              onChange={(e) => onChangePrevType(e.target.value as PreviousBuildingType)}
-              className="bg-canvas ring-1 ring-cyan-400/50 rounded-lg px-2 py-1 text-xs font-medium text-white cursor-pointer"
-            >
-              {PREVIOUS_BUILDING_OPTIONS.map((opt) => (
-                <option key={opt.id} value={opt.id} className="bg-surface">
-                  {opt.title} ({opt.era})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-slate-300">② 前面道路・本管:</span>
-            <select
-              value={roadDir}
-              onChange={(e) => onChangeRoadDir(e.target.value as FrontRoadDirection)}
-              className="bg-canvas ring-1 ring-white/15 rounded-lg px-2 py-1 text-xs text-white cursor-pointer"
-            >
-              {FRONT_ROAD_OPTIONS.map((opt) => (
-                <option key={opt.id} value={opt.id} className="bg-surface">
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-slate-300">③ 周囲の建物環境:</span>
-            <select
-              value={surroundingType}
-              onChange={(e) => onChangeSurrounding(e.target.value as SurroundingContextType)}
-              className="bg-canvas ring-1 ring-white/15 rounded-lg px-2 py-1 text-xs text-white cursor-pointer"
-            >
-              {SURROUNDING_OPTIONS.map((opt) => (
-                <option key={opt.id} value={opt.id} className="bg-surface">
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <label className="flex items-center gap-1.5 text-xs text-cyan-300 font-medium cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={showNewBuildingOverlay}
-            onChange={(e) => setShowNewBuildingOverlay(e.target.checked)}
-            className="accent-cyan-400"
-          />
-          新築1F基礎・水回り計画を重ねて干渉チェック
-        </label>
-      </div>
-
-      {/* AI推論サマリーバナー */}
-      <div className="px-4 py-2 bg-raised border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <div className="flex items-center gap-2">
+      {/* 推定結果の要約。条件の変更はスタジオの「設定」パネルで行う */}
+      <div className="px-5 py-3 bg-surface border-b border-white/10 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm">
+        <div className="flex items-center gap-3 min-w-0">
           <span
-            className={`px-2 py-0.5 rounded-md font-mono text-xs font-bold ${
+            className={`shrink-0 px-2 py-0.5 rounded-md text-xs font-semibold ${
               analysis.aiSummary.overallRiskLevel === 'HIGH'
-                ? 'bg-red-500/20 text-red-300 ring-1 ring-red-400/40'
-                : 'bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/40'
+                ? 'bg-red-500/15 text-red-300'
+                : 'bg-amber-500/15 text-amber-300'
             }`}
           >
-            埋設リスク: {analysis.aiSummary.overallRiskLevel}
+            リスク {({ HIGH: '高', MEDIUM: '中', LOW: '低' } as Record<string, string>)[analysis.aiSummary.overallRiskLevel] ?? analysis.aiSummary.overallRiskLevel}
           </span>
-          <span className="text-slate-200 font-medium">
-            {analysis.aiSummary.keyFindings[0]}
-          </span>
+          <span className="text-slate-200">{analysis.aiSummary.keyFindings[0]}</span>
         </div>
-        <div className="font-mono text-xs text-slate-300">
-          推論配管: <strong className="text-amber-300">{analysis.pipes.length}系統</strong> ／ 地中障害物:{' '}
-          <strong className="text-red-300">{analysis.obstacles.length}箇所</strong>
+        <div className="flex items-center gap-4 text-xs text-slate-400">
+          <span>
+            配管 <strong className="text-white">{analysis.pipes.length}</strong> 系統 ・ 障害物{' '}
+            <strong className="text-white">{analysis.obstacles.length}</strong> 箇所
+          </span>
+          <label className="flex items-center gap-1.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={showNewBuildingOverlay}
+              onChange={(e) => setShowNewBuildingOverlay(e.target.checked)}
+              className="accent-cyan-400"
+            />
+            新築計画を重ねる
+          </label>
+          <button
+            onClick={onEditConditions}
+            className="h-8 px-3 rounded-lg ring-1 ring-white/15 text-slate-200 hover:bg-white/10 cursor-pointer"
+          >
+            条件を変更
+          </button>
         </div>
       </div>
 
       {/* メイン2D 埋設インフラ・地下断面CAD図面 */}
       <div
-        className="flex-1 overflow-auto p-4 flex items-center justify-center bg-canvas [&>svg]:max-h-full [&>svg]:w-auto [&>svg]:rounded-xl [&>svg]:shadow-2xl"
+        className="flex-1 overflow-auto p-6 sm:p-10 flex items-center justify-center bg-canvas [&>svg]:max-h-full [&>svg]:w-auto [&>svg]:rounded-lg [&>svg]:shadow-lg"
         dangerouslySetInnerHTML={{ __html: svgMarkup }}
       />
     </div>
