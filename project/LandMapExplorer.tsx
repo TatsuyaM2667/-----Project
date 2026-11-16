@@ -337,7 +337,13 @@ export default function LandMapExplorer({ onBack, onOpenStudio, onPlanBuilding, 
       runAnalysis(pxToLat(originY + e.clientY - rect.top, effZoom), pxToLng(originX + e.clientX - rect.left, effZoom));
     }
   };
-  const onWheel = (e: ReactWheelEvent) => setZoom((z) => Math.max(12, Math.min(18, z + (e.deltaY < 0 ? 1 : -1))));
+  // トラックパッドは1回のスワイプで大量のwheelが届くため、ズームは0.25秒に1段まで
+  const lastWheel = useRef(0);
+  const onWheel = (e: ReactWheelEvent) => {
+    if (e.deltaY === 0 || e.timeStamp - lastWheel.current < 250) return;
+    lastWheel.current = e.timeStamp;
+    setZoom((z) => Math.max(12, Math.min(18, z + (e.deltaY < 0 ? 1 : -1))));
+  };
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -602,7 +608,7 @@ export default function LandMapExplorer({ onBack, onOpenStudio, onPlanBuilding, 
 
       {/* ===== AI地下埋設図・設計図ドロワー（タブレット縦：下シート ／ タブレット横・PC：右ワイドパネル） ===== */}
       {panelOpen && (
-        <aside className="w-full md:w-[520px] lg:w-[580px] max-h-[65vh] md:max-h-none md:h-full flex flex-col bg-surface border-t md:border-t-0 md:border-l border-white/15 animate-fade-up shadow-2xl">
+        <aside className="w-full md:w-[520px] lg:w-[580px] max-h-[65dvh] md:max-h-none md:h-full flex flex-col bg-surface border-t md:border-t-0 md:border-l border-white/15 animate-fade-up shadow-2xl">
           <div className="md:hidden mx-auto mt-2 h-1.5 w-12 rounded-full bg-white/20" />
           <div className="px-5 pt-3.5 pb-3 flex items-start justify-between gap-3 border-b border-white/10">
             <div className="min-w-0">

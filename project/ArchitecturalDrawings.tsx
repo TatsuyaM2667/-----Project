@@ -108,7 +108,7 @@ function renderRoomArchitecturalSymbols(
       `  <ellipse cx="${(wcX + 17.5).toFixed(1)}" cy="${(wcZ + wcH * 0.5).toFixed(1)}" rx="5.0" ry="3.6" fill="none" stroke="${subCol}" stroke-width="0.65" />`,
       // PS (Pipe Shaft) ボックス
       `  <rect x="${(wcX + wcW + 1).toFixed(1)}" y="${wcZ.toFixed(1)}" width="13" height="${wcH.toFixed(1)}" fill="#E2DFD7" stroke="${strokeCol}" stroke-width="1.5" />`,
-      `  <text x="${(wcX + wcW + 7.5).toFixed(1)}" y="${(wcZ + wcH * 0.5 + 3).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#333">PS</text>`
+      `  <text x="${(wcX + wcW + 7.5).toFixed(1)}" y="${(wcZ + wcH * 0.5 + 3).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="6.5" font-weight="bold" fill="#333">PS</text>`
     );
   } else if (isLDK) {
     // LDK: ① システムキッチン/アイランドキッチン (3口コンロ + シンク + 冷蔵庫 + 背面収納)
@@ -257,7 +257,7 @@ function renderRoomArchitecturalSymbols(
       `  <line x1="${(rx + 4).toFixed(1)}" y1="${(rz + rd * 0.55).toFixed(1)}" x2="${(rx + rw - sicW - 4).toFixed(1)}" y2="${(rz + rd * 0.55).toFixed(1)}" stroke="${lineCol}" stroke-width="1.4" />`,
       // SIC棚
       `  <rect x="${(rx + rw - sicW - 3).toFixed(1)}" y="${(rz + 4).toFixed(1)}" width="${sicW.toFixed(1)}" height="${(rd - 8).toFixed(1)}" fill="#EAE7DF" stroke="${strokeCol}" stroke-width="1.5" />`,
-      `  <text x="${(rx + rw - sicW * 0.5 - 3).toFixed(1)}" y="${(cz + 3).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#444">SIC</text>`
+      `  <text x="${(rx + rw - sicW * 0.5 - 3).toFixed(1)}" y="${(cz + 3).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="6.5" fill="#444">SIC</text>`
     );
   } else if (isBalcony) {
     // バルコニー: 外周二重手摺ライン + 避難ハッチ
@@ -346,10 +346,10 @@ export function renderProArchitecturalCadSvg(
     '  </defs>',
     `  <rect width="${totalW.toFixed(1)}" height="${totalH.toFixed(1)}" fill="${isMono ? '#FFFFFF' : '#FAF9F5'}" />`,
     // 上部建築設計図タイトルブロック & 専有面積・坪数・バルコニー面積表記
-    `  <text x="${pad.toFixed(1)}" y="32" font-family="Georgia, serif" font-size="17" font-weight="bold" fill="#1C1B18">`,
+    `  <text x="${pad.toFixed(1)}" y="32" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="17" font-weight="bold" fill="#1C1B18">`,
     `    STRATUM ARCHITECTURAL DRAWING — 専有面積 ${totalExclusiveArea.toFixed(2)}㎡ (約${totalTsubo.toFixed(2)}坪) / バルコニー面積 ${(totalBalconyArea || 12.4).toFixed(2)}㎡`,
     '  </text>',
-    `  <text x="${pad.toFixed(1)}" y="50" font-family="monospace" font-size="10.5" fill="#6E6B64">`,
+    `  <text x="${pad.toFixed(1)}" y="50" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="10.5" fill="#6E6B64">`,
     `    SCALE 1:100 | SITE ${sw.toFixed(1)}m × ${sd.toFixed(1)}m | RC/SE WALL-SHARING ZERO-GAP PLAN | BUILDING STANDARDS ACT 1/7 DAYLIGHT VERIFIED`,
     '  </text>',
     `  <line x1="${pad.toFixed(1)}" y1="60" x2="${(totalW - pad).toFixed(1)}" y2="60" stroke="#D5D1C8" stroke-width="1" />`
@@ -369,7 +369,7 @@ export function renderProArchitecturalCadSvg(
 
     // フロアヘッダー
     lines.push(
-      `  <text x="${sx.toFixed(1)}" y="${(sz - 14).toFixed(1)}" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#1C1B18">`,
+      `  <text x="${sx.toFixed(1)}" y="${(sz - 14).toFixed(1)}" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="13" font-weight="bold" fill="#1C1B18">`,
       `    ${fl}F FLOOR PLAN — ${flArea.toFixed(2)}㎡ (約${flTsubo.toFixed(2)}坪 / GL+${((fl - 1) * floorHeight).toFixed(1)}m)`,
       '  </text>'
     );
@@ -476,14 +476,14 @@ export function renderProArchitecturalCadSvg(
       if (labelStyle === 'english_serif') {
         const engLabel = toEnglishArchitecturalLabel(r.name, r.type);
         lines.push(
-          `    <text x="${labelX.toFixed(1)}" y="${(labelZ + 3).toFixed(1)}" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="13.5" fill="#2B2A27">${engLabel}</text>`
+          `    <text x="${labelX.toFixed(1)}" y="${(labelZ + 3).toFixed(1)}" text-anchor="middle" font-family="Georgia, 'Times New Roman', Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="13.5" fill="#2B2A27">${engLabel}</text>`
         );
       } else {
         const cleanJp = r.name.replace(/^[1-3]F\s*/, '').split('(')[0];
         lines.push(
           `    <rect x="${(labelX - 44).toFixed(1)}" y="${(labelZ - 13).toFixed(1)}" width="88" height="24" rx="2" fill="#FFFFFF" fill-opacity="0.78" />`,
-          `    <text x="${labelX.toFixed(1)}" y="${(labelZ - 2).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#1E242B">${cleanJp}</text>`,
-          `    <text x="${labelX.toFixed(1)}" y="${(labelZ + 9).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#3B495E">(約${tatamiJ.toFixed(1)}畳)</text>`
+          `    <text x="${labelX.toFixed(1)}" y="${(labelZ - 2).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" font-weight="bold" fill="#1E242B">${cleanJp}</text>`,
+          `    <text x="${labelX.toFixed(1)}" y="${(labelZ + 9).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#3B495E">(約${tatamiJ.toFixed(1)}畳)</text>`
         );
       }
 
@@ -510,7 +510,7 @@ export function renderProArchitecturalCadSvg(
       lines.push(
         `  <line x1="${(cxRect + cw * 0.5).toFixed(1)}" y1="${(czRect + cd - 8).toFixed(1)}" x2="${(cxRect + cw * 0.5).toFixed(1)}" y2="${(czRect + 8).toFixed(1)}" stroke="#444" stroke-width="1.0" />`,
         `  <polyline points="${(cxRect + cw * 0.5 - 4).toFixed(1)},${(czRect + 14).toFixed(1)} ${(cxRect + cw * 0.5).toFixed(1)},${(czRect + 7).toFixed(1)} ${(cxRect + cw * 0.5 + 4).toFixed(1)},${(czRect + 14).toFixed(1)}" fill="none" stroke="#444" stroke-width="1.0" />`,
-        `  <text x="${(cxRect + cw * 0.5).toFixed(1)}" y="${(czRect + cd * 0.5 + 3).toFixed(1)}" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="9.5" fill="#1C1B18">Stair / Hall</text>`
+        `  <text x="${(cxRect + cw * 0.5).toFixed(1)}" y="${(czRect + cd * 0.5 + 3).toFixed(1)}" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="9.5" fill="#1C1B18">Stair / Hall</text>`
       );
     });
 
@@ -545,7 +545,7 @@ export function renderProArchitecturalCadSvg(
       const tag = sh.type === 'plumbing' ? 'PS' : 'DS';
       lines.push(
         `  <rect x="${(shX - 11).toFixed(1)}" y="${(shZ - 8).toFixed(1)}" width="22" height="16" fill="#E2E5EA" stroke="${wallColor}" stroke-width="1.3" />`,
-        `  <text x="${shX.toFixed(1)}" y="${(shZ + 3.5).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="8.5" font-weight="bold" fill="#1C1B18">${tag}</text>`
+        `  <text x="${shX.toFixed(1)}" y="${(shZ + 3.5).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8.5" font-weight="bold" fill="#1C1B18">${tag}</text>`
       );
     });
   });
@@ -571,10 +571,10 @@ function renderReferenceTypeABSvg(): string {
     </pattern>
   </defs>
   <rect width="980" height="540" fill="#FFFFFF" />
-  <text x="50" y="34" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#1C1B18">
+  <text x="50" y="34" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16" font-weight="bold" fill="#1C1B18">
     TYPE-B ARCHITECTURAL CAD FLOOR PLAN — 2LDK + Study Room + WIC (専有面積 78.40㎡ / 約23.71坪)
   </text>
-  <text x="50" y="50" font-family="monospace" font-size="10.5" fill="#6E6B64">
+  <text x="50" y="50" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="10.5" fill="#6E6B64">
     WALL-SHARING RC FRAME | WOOD FLOORING &amp; CERAMIC TILE HATCHING | ISLAND KITCHEN &amp; 1620 UNIT BATH
   </text>
 
@@ -602,15 +602,15 @@ function renderReferenceTypeABSvg(): string {
     <rect x="-13" y="-13" width="26" height="26" rx="3" fill="#FFFFFF" stroke="#555" stroke-width="1" />
     <line x1="-13" y1="-6" x2="13" y2="-6" stroke="#555" stroke-width="0.9" />
   </g>
-  <text x="165" y="178" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#222">Study</text>
-  <text x="165" y="194" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#222">Room</text>
+  <text x="165" y="178" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="14" fill="#222">Study</text>
+  <text x="165" y="194" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="14" fill="#222">Room</text>
 
   <!-- WIC (ウォークインクローゼット) -->
   <rect x="210" y="75" width="108" height="135" fill="#FFFFFF" stroke="#757575" stroke-width="4.5" />
   <rect x="214" y="80" width="42" height="126" fill="#FAFAFA" stroke="#777" stroke-width="0.9" />
   <rect x="256" y="80" width="58" height="32" fill="#FAFAFA" stroke="#777" stroke-width="0.9" />
   <rect x="256" y="168" width="58" height="38" fill="#FAFAFA" stroke="#777" stroke-width="0.9" />
-  <text x="278" y="142" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="15" fill="#222">Wic</text>
+  <text x="278" y="142" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="15" fill="#222">Wic</text>
 
   <!-- Master Room (主寝室 + ダブルベッド・曲線布団) -->
   <rect x="318" y="75" width="205" height="135" fill="none" stroke="#757575" stroke-width="5" />
@@ -623,7 +623,7 @@ function renderReferenceTypeABSvg(): string {
   <rect x="319" y="206" width="54" height="8" fill="#FFFFFF" />
   <line x1="319" y1="210" x2="319" y2="156" stroke="#444" stroke-width="1.3" />
   <path d="M 319 156 A 54 54 0 0 1 373 210" fill="none" stroke="#666" stroke-width="0.9" />
-  <text x="415" y="145" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="16" fill="#222">Room</text>
+  <text x="415" y="145" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="16" fill="#222">Room</text>
 
   <!-- Ent (玄関ホール + 玄関ドア円弧) -->
   <rect x="75" y="210" width="140" height="110" fill="#FFFFFF" stroke="#757575" stroke-width="5" />
@@ -631,7 +631,7 @@ function renderReferenceTypeABSvg(): string {
   <!-- 玄関扉 外部開き円弧 -->
   <line x1="75" y1="252" x2="18" y2="252" stroke="#444" stroke-width="1.4" />
   <path d="M 18 252 A 57 57 0 0 0 75 309" fill="none" stroke="#666" stroke-width="0.95" />
-  <text x="165" y="290" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="16" fill="#222">Ent</text>
+  <text x="165" y="290" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="16" fill="#222">Ent</text>
 
   <!-- 廊下 (Corridor) + リビング扉円弧 -->
   <line x1="376" y1="210" x2="376" y2="265" stroke="#444" stroke-width="1.3" />
@@ -658,7 +658,7 @@ function renderReferenceTypeABSvg(): string {
   <rect x="225" y="445" width="68" height="38" fill="#FFFFFF" stroke="#555" stroke-width="1.0" />
   <circle cx="259" cy="464" r="12" fill="#FAFAFA" stroke="#555" stroke-width="0.95" />
   <circle cx="259" cy="464" r="9" fill="none" stroke="#777" stroke-width="0.7" />
-  <text x="242" y="395" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="15" fill="#222" transform="rotate(-90 242 395)">Lavatory</text>
+  <text x="242" y="395" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="15" fill="#222" transform="rotate(-90 242 395)">Lavatory</text>
 
   <!-- トイレ個室 (ロータンク + 楕円ボウル) -->
   <rect x="292" y="320" width="88" height="170" fill="#FFFFFF" stroke="#757575" stroke-width="5" />
@@ -701,8 +701,8 @@ function renderReferenceTypeABSvg(): string {
   <rect x="382" y="432" width="54" height="48" fill="#FFFFFF" stroke="#666" stroke-width="1.0" />
   <rect x="442" y="446" width="120" height="34" fill="#FFFFFF" stroke="#666" stroke-width="1.0" />
 
-  <text x="690" y="280" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="18" fill="#222">Living/Dining</text>
-  <text x="515" y="408" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="16" fill="#222">Kitchen</text>
+  <text x="690" y="280" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="18" fill="#222">Living/Dining</text>
+  <text x="515" y="408" text-anchor="middle" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-style="italic" font-size="16" fill="#222">Kitchen</text>
 </svg>`;
 }
 
@@ -714,14 +714,14 @@ function renderMansion30TsuboSvg(): string {
   <rect width="980" height="680" fill="#F4F6F9" />
 
   <!-- 左上スペックブロック (Image 3 準拠) -->
-  <text x="48" y="38" font-family="sans-serif" font-size="18" font-weight="bold" fill="#23344D">専有面積 100.00㎡ (約30.25坪)</text>
-  <text x="48" y="60" font-family="sans-serif" font-size="11" fill="#4A5B73">トランクルーム面積 <tspan font-weight="bold" font-size="14">0.82㎡</tspan> ／ バルコニー面積 <tspan font-weight="bold" font-size="14">14.61㎡</tspan></text>
+  <text x="48" y="38" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="18" font-weight="bold" fill="#23344D">専有面積 100.00㎡ (約30.25坪)</text>
+  <text x="48" y="60" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="11" fill="#4A5B73">トランクルーム面積 <tspan font-weight="bold" font-size="14">0.82㎡</tspan> ／ バルコニー面積 <tspan font-weight="bold" font-size="14">14.61㎡</tspan></text>
 
   <!-- L字コーナーバルコニー外周線 (西面〜南西コーナー〜南面) -->
   <polyline points="82,135 38,135 38,445 135,555 375,555 375,610 910,610 910,555" fill="#EDF0F5" stroke="#5A6B82" stroke-width="1.5" />
   <polyline points="82,144 48,144 48,440 140,545 385,545 385,598 900,598" fill="none" stroke="#7E8EA6" stroke-width="1.0" />
-  <text x="64" y="280" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#3B4B61" writing-mode="tb">バルコニー</text>
-  <text x="640" y="582" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#3B4B61">バルコニー</text>
+  <text x="64" y="280" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="12" fill="#3B4B61" writing-mode="tb">バルコニー</text>
+  <text x="640" y="582" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="12" fill="#3B4B61">バルコニー</text>
 
   <!-- 住戸本体ポリゴン (南西コーナー斜めワイドサッシ形状) -->
   <polygon points="118,150 620,150 620,120 865,120 865,220 925,220 925,555 385,555 385,542 195,542 118,455" fill="#EBEFF5" stroke="#2D3E56" stroke-width="5.5" />
@@ -729,40 +729,40 @@ function renderMansion30TsuboSvg(): string {
   <!-- 洋室(2) (約7.0畳) + ウォークインクロゼット (約1.5畳) -->
   <rect x="122" y="154" width="265" height="145" fill="#EBEFF5" stroke="#4A5B73" stroke-width="2.5" />
   <rect x="387" y="154" width="112" height="92" fill="#CFD6E2" stroke="#4A5B73" stroke-width="2.2" />
-  <text x="255" y="218" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#23344D">洋室(2)</text>
-  <text x="255" y="238" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#23344D">(約7.0畳)</text>
-  <text x="443" y="188" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#23344D">ウォークイン</text>
-  <text x="443" y="201" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#23344D">クロゼット</text>
-  <text x="443" y="215" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#23344D">(約1.5畳)</text>
+  <text x="255" y="218" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14" font-weight="bold" fill="#23344D">洋室(2)</text>
+  <text x="255" y="238" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13" fill="#23344D">(約7.0畳)</text>
+  <text x="443" y="188" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10" font-weight="bold" fill="#23344D">ウォークイン</text>
+  <text x="443" y="201" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10" font-weight="bold" fill="#23344D">クロゼット</text>
+  <text x="443" y="215" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10" fill="#23344D">(約1.5畳)</text>
 
   <!-- シューズインクロゼット (約1.0畳) & 玄関 & 廊下 -->
   <rect x="624" y="124" width="96" height="68" fill="#CFD6E2" stroke="#4A5B73" stroke-width="2.2" />
-  <text x="672" y="152" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#23344D">シューズイン</text>
-  <text x="672" y="164" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#23344D">クロゼット</text>
-  <text x="672" y="176" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#23344D">(約1.0畳)</text>
-  <text x="778" y="185" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#23344D">玄関</text>
-  <text x="782" y="340" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#23344D">廊下</text>
+  <text x="672" y="152" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" font-weight="bold" fill="#23344D">シューズイン</text>
+  <text x="672" y="164" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" font-weight="bold" fill="#23344D">クロゼット</text>
+  <text x="672" y="176" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" fill="#23344D">(約1.0畳)</text>
+  <text x="778" y="185" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14" font-weight="bold" fill="#23344D">玄関</text>
+  <text x="782" y="340" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14" font-weight="bold" fill="#23344D">廊下</text>
 
   <!-- 洗面室 + 洗濯機置場 + 浴室(1620) + トイレ + 納戸(約0.7畳) -->
   <rect x="515" y="192" width="215" height="102" fill="#E3EAF2" stroke="#4A5B73" stroke-width="2.2" />
-  <text x="615" y="252" text-anchor="middle" font-family="sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">洗面室</text>
+  <text x="615" y="252" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">洗面室</text>
   <rect x="665" y="196" width="52" height="44" fill="#FFFFFF" stroke="#4A5B73" stroke-width="1.2" />
-  <text x="691" y="216" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#23344D">洗濯機</text>
-  <text x="691" y="228" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#23344D">置場</text>
+  <text x="691" y="216" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9" fill="#23344D">洗濯機</text>
+  <text x="691" y="228" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9" fill="#23344D">置場</text>
 
   <!-- 浴室 (1620) -->
   <rect x="605" y="294" width="142" height="118" fill="#E3EAF2" stroke="#4A5B73" stroke-width="2.5" />
   <rect x="688" y="302" width="52" height="102" rx="18" fill="#EDF3F8" stroke="#4A5B73" stroke-width="1.3" />
-  <text x="646" y="352" text-anchor="middle" font-family="sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">浴室</text>
-  <text x="646" y="370" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#23344D">(1620)</text>
+  <text x="646" y="352" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">浴室</text>
+  <text x="646" y="370" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13" fill="#23344D">(1620)</text>
 
   <!-- 納戸 (約0.7畳) & トイレ -->
   <rect x="832" y="242" width="88" height="62" fill="#CFD6E2" stroke="#4A5B73" stroke-width="2" />
-  <text x="876" y="270" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#23344D">納戸</text>
-  <text x="876" y="284" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#23344D">(約0.7畳)</text>
+  <text x="876" y="270" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10.5" font-weight="bold" fill="#23344D">納戸</text>
+  <text x="876" y="284" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10" fill="#23344D">(約0.7畳)</text>
   <rect x="832" y="304" width="88" height="96" fill="#E3EAF2" stroke="#4A5B73" stroke-width="2" />
   <ellipse cx="868" cy="336" rx="11" ry="15" fill="#FFFFFF" stroke="#4A5B73" stroke-width="1.1" />
-  <text x="872" y="378" text-anchor="middle" font-family="sans-serif" font-size="12.5" font-weight="bold" fill="#23344D">トイレ</text>
+  <text x="872" y="378" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="12.5" font-weight="bold" fill="#23344D">トイレ</text>
 
   <!-- キッチン (約3.9畳) + L字システムキッチン (3口コンロ・シンク・冷蔵庫・食器棚・パントリー) -->
   <rect x="355" y="294" width="250" height="122" fill="#E6ECF4" stroke="#4A5B73" stroke-width="2.5" />
@@ -774,29 +774,29 @@ function renderMansion30TsuboSvg(): string {
   <circle cx="489" cy="322" r="3.0" fill="none" stroke="#23344D" stroke-width="1" />
   <!-- シンク -->
   <rect x="368" y="346" width="32" height="52" rx="5" fill="#FFFFFF" stroke="#4A5B73" stroke-width="1.0" />
-  <text x="515" y="356" text-anchor="middle" font-family="sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">キッチン</text>
-  <text x="515" y="374" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#23344D">(約3.9畳)</text>
+  <text x="515" y="356" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13.5" font-weight="bold" fill="#23344D">キッチン</text>
+  <text x="515" y="374" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13" fill="#23344D">(約3.9畳)</text>
 
   <!-- リビング・ダイニング (約18.0畳 — 南西コーナー大開口サッシ) -->
-  <text x="275" y="425" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#23344D">リビング・ダイニング</text>
-  <text x="275" y="446" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#23344D">(約18.0畳)</text>
+  <text x="275" y="425" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="15" font-weight="bold" fill="#23344D">リビング・ダイニング</text>
+  <text x="275" y="446" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14" fill="#23344D">(約18.0畳)</text>
 
   <!-- 洋室(1) (約8.0畳) + 4連クローク -->
   <rect x="448" y="416" width="295" height="136" fill="#EBEFF5" stroke="#4A5B73" stroke-width="2.5" />
   <rect x="702" y="418" width="40" height="120" fill="#CFD6E2" stroke="#4A5B73" stroke-width="1.8" />
-  <text x="722" y="438" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#23344D">クローク</text>
-  <text x="722" y="468" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#23344D">クローク</text>
-  <text x="722" y="498" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#23344D">クローク</text>
-  <text x="722" y="528" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#23344D">クローク</text>
-  <text x="572" y="476" text-anchor="middle" font-family="sans-serif" font-size="14.5" font-weight="bold" fill="#23344D">洋室(1)</text>
-  <text x="572" y="496" text-anchor="middle" font-family="sans-serif" font-size="13.5" fill="#23344D">(約8.0畳)</text>
+  <text x="722" y="438" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#23344D">クローク</text>
+  <text x="722" y="468" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#23344D">クローク</text>
+  <text x="722" y="498" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#23344D">クローク</text>
+  <text x="722" y="528" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#23344D">クローク</text>
+  <text x="572" y="476" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14.5" font-weight="bold" fill="#23344D">洋室(1)</text>
+  <text x="572" y="496" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13.5" fill="#23344D">(約8.0畳)</text>
 
   <!-- 洋室(3) (約4.8畳) -->
   <rect x="743" y="416" width="178" height="136" fill="#EBEFF5" stroke="#4A5B73" stroke-width="2.5" />
   <rect x="852" y="400" width="68" height="32" fill="#CFD6E2" stroke="#4A5B73" stroke-width="1.8" />
-  <text x="886" y="420" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#23344D">クローク</text>
-  <text x="835" y="476" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#23344D">洋室(3)</text>
-  <text x="835" y="496" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#23344D">(約4.8畳)</text>
+  <text x="886" y="420" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9" fill="#23344D">クローク</text>
+  <text x="835" y="476" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="14" font-weight="bold" fill="#23344D">洋室(3)</text>
+  <text x="835" y="496" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="13" fill="#23344D">(約4.8畳)</text>
 
   <!-- 外周RC柱型 (Image 3 特徴のスレートブルー極太RC柱) -->
   <rect x="84" y="102" width="66" height="58" fill="#788AA3" stroke="#23344D" stroke-width="2" />
@@ -813,10 +813,10 @@ function renderMansion30TsuboSvg(): string {
 function renderAngledPolygonWingSvg(): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 720" width="100%" height="100%">
   <rect width="820" height="720" fill="#FFFFFF" />
-  <text x="45" y="36" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#1C1B18">
+  <text x="45" y="36" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16" font-weight="bold" fill="#1C1B18">
     CHAMFERED SITE POLYGON PLAN — 変形敷地・30°斜め壁ウィング 1LDK + SIC + Storage
   </text>
-  <text x="45" y="52" font-family="monospace" font-size="10.5" fill="#6E6B64">
+  <text x="45" y="52" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="10.5" fill="#6E6B64">
     NON-ORTHOGONAL ARCHITECTURAL GEOMETRY | LD 約13.0帖 + K 約3.5帖 + 洋室 約6.5帖 + SIC + 浴室/洗面所
   </text>
 
@@ -825,23 +825,23 @@ function renderAngledPolygonWingSvg(): string {
 
   <!-- 玄関・シューズインクローゼット・収納 (上部) -->
   <rect x="355" y="78" width="90" height="65" fill="#FFFFFF" stroke="#666" stroke-width="3" />
-  <text x="400" y="118" text-anchor="middle" font-family="serif" font-size="22" font-weight="bold" fill="#111">玄関</text>
+  <text x="400" y="118" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="22" font-weight="bold" fill="#111">玄関</text>
   <!-- 玄関ドア円弧 -->
   <line x1="425" y1="75" x2="425" y2="18" stroke="#444" stroke-width="1.4" />
   <path d="M 425 18 A 57 57 0 0 0 368 75" fill="none" stroke="#555" stroke-width="1.0" />
 
   <rect x="445" y="78" width="76" height="62" fill="#EFEBD9" stroke="#666" stroke-width="3" />
-  <text x="483" y="104" text-anchor="middle" font-family="serif" font-size="11.5" font-weight="bold" fill="#111">シューズイン</text>
-  <text x="483" y="120" text-anchor="middle" font-family="serif" font-size="11.5" font-weight="bold" fill="#111">クローゼット</text>
+  <text x="483" y="104" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="11.5" font-weight="bold" fill="#111">シューズイン</text>
+  <text x="483" y="120" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="11.5" font-weight="bold" fill="#111">クローゼット</text>
 
   <rect x="521" y="78" width="156" height="62" fill="#EFEBD9" stroke="#666" stroke-width="3" />
-  <text x="599" y="118" text-anchor="middle" font-family="serif" font-size="21" font-weight="bold" fill="#111">収納</text>
+  <text x="599" y="118" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="21" font-weight="bold" fill="#111">収納</text>
 
   <!-- トイレ (水色ゾーン) -->
   <rect x="445" y="140" width="76" height="108" fill="#E8F3FA" stroke="#666" stroke-width="3.5" />
   <rect x="466" y="146" width="34" height="14" fill="#FFFFFF" stroke="#444" stroke-width="1.0" />
   <ellipse cx="483" cy="174" rx="14" ry="18" fill="#FFFFFF" stroke="#444" stroke-width="1.0" />
-  <text x="476" y="280" text-anchor="middle" font-family="serif" font-size="21" font-weight="bold" fill="#111">廊下</text>
+  <text x="476" y="280" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="21" font-weight="bold" fill="#111">廊下</text>
 
   <!-- キッチン K 約3.5帖 -->
   <rect x="521" y="140" width="156" height="175" fill="#FBF3E4" stroke="#666" stroke-width="3.5" />
@@ -852,8 +852,8 @@ function renderAngledPolygonWingSvg(): string {
   <circle cx="542" cy="224" r="4" fill="none" stroke="#333" stroke-width="1" />
   <circle cx="556" cy="215" r="3.5" fill="none" stroke="#333" stroke-width="1" />
   <rect x="531" y="250" width="34" height="44" rx="5" fill="#FFFFFF" stroke="#444" stroke-width="1.0" />
-  <text x="608" y="224" text-anchor="middle" font-family="serif" font-size="22" font-weight="bold" fill="#111">K</text>
-  <text x="608" y="248" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#111">約3.5帖</text>
+  <text x="608" y="224" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="22" font-weight="bold" fill="#111">K</text>
+  <text x="608" y="248" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16" font-weight="bold" fill="#111">約3.5帖</text>
 
   <!-- 30度回転した西ウィング (浴室・洗面所・クローゼット・洋室 約6.5帖) -->
   <g transform="translate(260, 295) rotate(-30)">
@@ -876,10 +876,10 @@ function renderAngledPolygonWingSvg(): string {
     <line x1="42" y1="-158" x2="4" y2="-120" stroke="#777" stroke-width="0.7" />
   </g>
   <!-- 回転ウィング上の水平テキスト -->
-  <text x="155" y="232" text-anchor="middle" font-family="serif" font-size="21" font-weight="bold" fill="#111">浴室</text>
-  <text x="275" y="190" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#111">洗面所</text>
-  <text x="342" y="328" text-anchor="middle" font-family="serif" font-size="22" font-weight="bold" fill="#111">洋室</text>
-  <text x="342" y="352" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#111">約6.5帖</text>
+  <text x="155" y="232" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="21" font-weight="bold" fill="#111">浴室</text>
+  <text x="275" y="190" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="20" font-weight="bold" fill="#111">洗面所</text>
+  <text x="342" y="328" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="22" font-weight="bold" fill="#111">洋室</text>
+  <text x="342" y="352" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16" font-weight="bold" fill="#111">約6.5帖</text>
 
   <!-- LD 約13帖 (ダイニングテーブル＋斜めソファ・ローテーブル・TVボード) -->
   <rect x="572" y="346" width="102" height="56" fill="#F4EAD5" stroke="#444" stroke-width="1.1" />
@@ -893,13 +893,13 @@ function renderAngledPolygonWingSvg(): string {
     <rect x="10" y="-44" width="10" height="88" fill="#FFFFFF" stroke="#444" stroke-width="0.9" />
     <rect x="-64" y="-28" width="26" height="56" fill="#F4EAD5" stroke="#444" stroke-width="1.0" />
   </g>
-  <text x="580" y="458" text-anchor="middle" font-family="serif" font-size="23" font-weight="bold" fill="#111">LD</text>
-  <text x="580" y="482" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#111">約13帖</text>
+  <text x="580" y="458" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="23" font-weight="bold" fill="#111">LD</text>
+  <text x="580" y="482" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16" font-weight="bold" fill="#111">約13帖</text>
 
   <!-- 南面バルコニー & 台形RC柱 -->
   <polygon points="395,575 680,575 680,645 435,645" fill="#FFFFFF" stroke="#555" stroke-width="1.5" />
   <polygon points="435,645 495,645 495,692 405,672" fill="#9FA1A4" stroke="#333" stroke-width="1.5" />
-  <text x="555" y="618" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#111">バルコニー</text>
+  <text x="555" y="618" text-anchor="middle" font-family="Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="20" font-weight="bold" fill="#111">バルコニー</text>
 
   <!-- 上部RC柱ブロック -->
   <rect x="285" y="75" width="70" height="48" fill="#9FA1A4" stroke="#444" stroke-width="1.5" />
@@ -1181,7 +1181,7 @@ export function VerticalZoningAxonometricView({
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 820 880"
-          className="w-full h-full max-w-4xl max-h-[84vh]"
+          className="w-full h-full max-w-4xl max-h-[84dvh]"
         >
           <rect width="820" height="880" fill="#E8E7E3" />
 
@@ -1237,22 +1237,22 @@ export function VerticalZoningAxonometricView({
 
             {/* 入口アプローチ矢印＆ラベル (Image 5 準拠: 住宅入口 / 駐車場入口 / 店舗入口 / 事務所入口) */}
             <polygon points="392,598 408,592 402,608" fill="#E8B931" />
-            <text x="415" y="592" fontFamily="sans-serif" fontSize="11" fontWeight="bold" fill="#222">
+            <text x="415" y="592" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="11" fontWeight="bold" fill="#222">
               住宅入口
             </text>
 
             <polygon points="332,608 348,602 342,618" fill="#7A7872" />
-            <text x="295" y="592" fontFamily="sans-serif" fontSize="11" fontWeight="bold" fill="#222">
+            <text x="295" y="592" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="11" fontWeight="bold" fill="#222">
               駐車場入口
             </text>
 
             <polygon points="274,705 290,700 284,716" fill="#C92A42" />
-            <text x="242" y="726" fontFamily="sans-serif" fontSize="11" fontWeight="bold" fill="#222">
+            <text x="242" y="726" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="11" fontWeight="bold" fill="#222">
               店舗入口
             </text>
 
             <polygon points="334,712 350,706 344,722" fill="#1E4B9B" />
-            <text x="308" y="742" fontFamily="sans-serif" fontSize="11" fontWeight="bold" fill="#222">
+            <text x="308" y="742" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="11" fontWeight="bold" fill="#222">
               事務所入口
             </text>
 
@@ -1260,7 +1260,7 @@ export function VerticalZoningAxonometricView({
             <text
               x="145"
               y="725"
-              fontFamily="sans-serif"
+              fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif"
               fontSize="12.5"
               fontWeight="bold"
               fill="#1C1B18"
@@ -1271,7 +1271,7 @@ export function VerticalZoningAxonometricView({
             <text
               x="515"
               y="708"
-              fontFamily="sans-serif"
+              fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif"
               fontSize="12.5"
               fontWeight="bold"
               fill="#1C1B18"
@@ -1309,43 +1309,43 @@ export function VerticalZoningAxonometricView({
           <g transform="translate(535, 0)">
             {/* 21F-29F 住宅 */}
             <rect x="0" y="88" width="7" height="130" fill="#F2C029" />
-            <text x="16" y="160" fontFamily="sans-serif" fontSize="18" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="160" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="18" fontWeight="500" fill="#1C1B18">
               21F-29F 住宅
             </text>
 
             {/* 20F 住宅ロビー */}
             <rect x="0" y="232" width="7" height="24" fill="#E6B422" />
-            <text x="16" y="250" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="250" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               20F 住宅ロビー
             </text>
 
             {/* 19F 設備フロアー */}
             <rect x="0" y="268" width="7" height="24" fill="#6E7073" />
-            <text x="16" y="286" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="286" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               19F 設備フロアー
             </text>
 
             {/* 3F-18F 事務所 */}
             <rect x="0" y="308" width="7" height="225" fill="#1B4394" />
-            <text x="16" y="428" fontFamily="sans-serif" fontSize="18" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="428" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="18" fontWeight="500" fill="#1C1B18">
               3F-18F 事務所
             </text>
 
             {/* 1F-2F 店舗・事務所ロビー */}
             <rect x="0" y="548" width="7" height="125" fill="#D90B68" />
-            <text x="16" y="608" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="608" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               1F-2F 店舗・事務所
             </text>
-            <text x="68" y="630" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="68" y="630" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               ロビー
             </text>
 
             {/* B1F-B2F 駐車場・機械室 */}
             <rect x="0" y="752" width="7" height="72" fill="#75777A" />
-            <text x="16" y="782" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="16" y="782" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               B1F-B2F 駐車場・
             </text>
-            <text x="92" y="804" fontFamily="sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
+            <text x="92" y="804" fontFamily="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" fontSize="17" fontWeight="500" fill="#1C1B18">
               機械室
             </text>
           </g>

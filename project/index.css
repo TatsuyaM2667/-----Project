@@ -2,8 +2,8 @@
 
 /* 落ち着いたトーン: ネオンのcyanを製図ブルーに、青みのslateをニュートラルグレーに置き換え */
 @theme {
-  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Noto Sans Mono", monospace;
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Noto Sans Mono", "Noto Sans Mono CJK JP", "Noto Sans CJK JP", monospace;
 
   --color-cyan-50: #f1f5f9;
   --color-cyan-100: #dfe8f0;
@@ -144,6 +144,20 @@ body {
   background: var(--color-canvas);
   color: var(--color-white);
   transition: background-color 0.2s ease;
+}
+
+/* タッチ端末: iOS Safari は16px未満の入力欄にフォーカスすると画面を拡大してしまう */
+@media (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :focus-visible {

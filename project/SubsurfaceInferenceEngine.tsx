@@ -913,10 +913,10 @@ export function renderSubsurfaceSurveyCadSvg(
     '  <rect width="980" height="860" fill="#FAF9F5" />',
 
     // ヘッダー
-    '  <text x="36" y="32" font-family="Georgia, serif" font-size="16.5" font-weight="bold" fill="#1C1B18">',
+    '  <text x="36" y="32" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="16.5" font-weight="bold" fill="#1C1B18">',
     `    SUBSURFACE UTILITY &amp; BURIED OBSTACLE INFERENCE CAD — ${analysis.landTitle} (${analysis.previousBuilding.era})`,
     '  </text>',
-    '  <text x="36" y="50" font-family="monospace" font-size="10.5" fill="#5A574F">',
+    '  <text x="36" y="50" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="10.5" fill="#5A574F">',
     `    AI推論リスク判定: [${analysis.aiSummary.overallRiskLevel}] | 干渉警戒箇所: ${analysis.aiSummary.conflictCount}箇所 | 試掘・撤去・引込概算: 約${analysis.aiSummary.estimatedSubsurfaceCostManYen}万円`,
     '  </text>',
     '  <line x1="36" y1="58" x2="944" y2="58" stroke="#D5D1C8" stroke-width="1" />',
@@ -924,18 +924,18 @@ export function renderSubsurfaceSurveyCadSvg(
     // ==================== 1. 周囲の建物・前面道路コンテキスト描画 ====================
     // 北隣敷地
     `  <rect x="${(sx - 20).toFixed(1)}" y="${(sz - 58).toFixed(1)}" width="${(swPx + 40).toFixed(1)}" height="48" fill="#EFECE4" stroke="#ABA59A" stroke-width="1" stroke-dasharray="4 2" />`,
-    `  <text x="${ox.toFixed(1)}" y="${(sz - 30).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#5A574F">${analysis.surrounding.northNeighbor}</text>`,
+    `  <text x="${ox.toFixed(1)}" y="${(sz - 30).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10" fill="#5A574F">${analysis.surrounding.northNeighbor}</text>`,
     // 西隣敷地
     `  <rect x="${(sx - 155).toFixed(1)}" y="${sz.toFixed(1)}" width="142" height="${sdPx.toFixed(1)}" fill="#EFECE4" stroke="#ABA59A" stroke-width="1" stroke-dasharray="4 2" />`,
-    `  <text x="${(sx - 84).toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#5A574F">${analysis.surrounding.westNeighbor.slice(0, 18)}</text>`,
-    `  <text x="${(sx - 84).toFixed(1)}" y="${(oz + 14).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#78756E">${analysis.surrounding.westNeighbor.slice(18)}</text>`,
+    `  <text x="${(sx - 84).toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" fill="#5A574F">${analysis.surrounding.westNeighbor.slice(0, 18)}</text>`,
+    `  <text x="${(sx - 84).toFixed(1)}" y="${(oz + 14).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#78756E">${analysis.surrounding.westNeighbor.slice(18)}</text>`,
     // 東隣敷地
     `  <rect x="${(sx + swPx + 13).toFixed(1)}" y="${sz.toFixed(1)}" width="142" height="${sdPx.toFixed(1)}" fill="#EFECE4" stroke="#ABA59A" stroke-width="1" stroke-dasharray="4 2" />`,
-    `  <text x="${(sx + swPx + 84).toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="9.5" fill="#5A574F">${analysis.surrounding.eastNeighbor}</text>`,
+    `  <text x="${(sx + swPx + 84).toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" fill="#5A574F">${analysis.surrounding.eastNeighbor}</text>`,
 
     // 前面道路帯 (南側公道ベース)
     `  <rect x="60" y="${(sz + sdPx + 12).toFixed(1)}" width="860" height="82" fill="#E8E6DF" stroke="#B8B3A8" stroke-width="1" />`,
-    `  <text x="95" y="${(sz + sdPx + 30).toFixed(1)}" font-family="sans-serif" font-size="11" font-weight="bold" fill="#4A4843">${analysis.frontRoad.label} (地下本管埋設ゾーン)</text>`,
+    `  <text x="95" y="${(sz + sdPx + 30).toFixed(1)}" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="11" font-weight="bold" fill="#4A4843">${analysis.frontRoad.label} (地下本管埋設ゾーン)</text>`,
 
     // ==================== 2. 対象土地境界ボックス・実測不整形ポリゴン ====================
     (() => {
@@ -951,7 +951,7 @@ export function renderSubsurfaceSurveyCadSvg(
           const mz = oz + ((p1.z + p2.z) / 2) * scale;
           const len = Math.hypot(p2.x - p1.x, p2.z - p1.z);
           edgeLabels.push(
-            `  <text x="${mx.toFixed(1)}" y="${(mz - 4).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="8.5" font-weight="bold" fill="#1C1B18">${len.toFixed(1)}m</text>`
+            `  <text x="${mx.toFixed(1)}" y="${(mz - 4).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8.5" font-weight="bold" fill="#1C1B18">${len.toFixed(1)}m</text>`
           );
         }
         return [
@@ -972,8 +972,8 @@ export function renderSubsurfaceSurveyCadSvg(
         const isParking = siteStatus === 'parking_lot';
         return [
           `  <rect x="${(ox - 110).toFixed(1)}" y="${(oz - 14).toFixed(1)}" width="220" height="28" rx="4" fill="${isParking ? '#475569' : '#047857'}" fill-opacity="0.9" />`,
-          `  <text x="${ox.toFixed(1)}" y="${(oz + 4).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">${isParking ? '【現況：コインパーキング／舗装面】' : '【現況：更地・建築物なし】'}</text>`,
-          `  <text x="${ox.toFixed(1)}" y="${(oz + 30).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="9" fill="#5A574F">地中埋設管引込痕跡・既存桝・地中障害物探査伏図</text>`
+          `  <text x="${ox.toFixed(1)}" y="${(oz + 4).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">${isParking ? '【現況：コインパーキング／舗装面】' : '【現況：更地・建築物なし】'}</text>`,
+          `  <text x="${ox.toFixed(1)}" y="${(oz + 30).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="9" fill="#5A574F">地中埋設管引込痕跡・既存桝・地中障害物探査伏図</text>`
         ].join('\n');
       }
 
@@ -982,7 +982,7 @@ export function renderSubsurfaceSurveyCadSvg(
         const bldgPoints = bldgPoly.map((pt) => `${(ox + pt.x * scale).toFixed(1)},${(oz + pt.z * scale).toFixed(1)}`).join(' ');
         return [
           `  <polygon points="${bldgPoints}" fill="#EAE5D9" fill-opacity="0.65" stroke="#8C7A6B" stroke-width="2.0" />`,
-          `  <text x="${ox.toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#433422">${analysis.realContext?.buildingName ?? '現存建物（実測フットプリント）'}</text>`
+          `  <text x="${ox.toFixed(1)}" y="${oz.toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="10.5" font-weight="bold" fill="#433422">${analysis.realContext?.buildingName ?? '現存建物（実測フットプリント）'}</text>`
         ].join('\n');
       }
 
@@ -992,13 +992,13 @@ export function renderSubsurfaceSurveyCadSvg(
       const fpz = oz + analysis.previousBuilding.offsetZ * scale - fpd / 2.0;
       return [
         `  <rect x="${fpx.toFixed(1)}" y="${fpz.toFixed(1)}" width="${fpw.toFixed(1)}" height="${fpd.toFixed(1)}" fill="#EAE5D9" fill-opacity="0.45" stroke="#8C7A6B" stroke-width="1.8" stroke-dasharray="5 3" />`,
-        `  <text x="${(fpx + 8).toFixed(1)}" y="${(fpz + 15).toFixed(1)}" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#6E5A4F">[旧建物履歴輪郭] ${analysis.previousBuilding.title}</text>`,
+        `  <text x="${(fpx + 8).toFixed(1)}" y="${(fpz + 15).toFixed(1)}" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" font-weight="bold" fill="#6E5A4F">[旧建物履歴輪郭] ${analysis.previousBuilding.title}</text>`,
         ...analysis.previousBuilding.oldRooms.map((or) => {
           const orx = ox + or.x * scale - (or.w * scale) / 2.0;
           const orz = oz + or.z * scale - (or.d * scale) / 2.0;
           return [
             `  <rect x="${orx.toFixed(1)}" y="${orz.toFixed(1)}" width="${(or.w * scale).toFixed(1)}" height="${(or.d * scale).toFixed(1)}" fill="#DFD8C8" fill-opacity="0.55" stroke="#8C7A6B" stroke-width="1.1" stroke-dasharray="3 2" />`,
-            `  <text x="${( ox + or.x * scale ).toFixed(1)}" y="${( oz + or.z * scale + 3 ).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#5C4B3E">${or.label}</text>`
+            `  <text x="${( ox + or.x * scale ).toFixed(1)}" y="${( oz + or.z * scale + 3 ).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#5C4B3E">${or.label}</text>`
           ].join('\n');
         })
       ].join('\n');
@@ -1013,7 +1013,7 @@ export function renderSubsurfaceSurveyCadSvg(
             const rz = oz + (r.z - r.d / 2.0) * scale;
             return [
               `  <rect x="${rx.toFixed(1)}" y="${rz.toFixed(1)}" width="${(r.w * scale).toFixed(1)}" height="${(r.d * scale).toFixed(1)}" fill="none" stroke="#4A5568" stroke-width="1.2" stroke-opacity="0.45" />`,
-              `  <text x="${(ox + r.x * scale).toFixed(1)}" y="${(oz + r.z * scale + 14).toFixed(1)}" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#64748B">[新築1F: ${r.name}]</text>`
+              `  <text x="${(ox + r.x * scale).toFixed(1)}" y="${(oz + r.z * scale + 14).toFixed(1)}" text-anchor="middle" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8" fill="#64748B">[新築1F: ${r.name}]</text>`
             ].join('\n');
           })
       : [])
@@ -1034,13 +1034,13 @@ export function renderSubsurfaceSurveyCadSvg(
         `  <circle cx="${cx.toFixed(1)}" cy="${cz.toFixed(1)}" r="12" fill="url(#sub-obstacle-hatch)" stroke="#9E3B1E" stroke-width="2.0" />`,
         `  <line x1="${(cx - 8).toFixed(1)}" y1="${(cz - 8).toFixed(1)}" x2="${(cx + 8).toFixed(1)}" y2="${(cz + 8).toFixed(1)}" stroke="#9E3B1E" stroke-width="1.4" />`,
         `  <line x1="${(cx + 8).toFixed(1)}" y1="${(cz - 8).toFixed(1)}" x2="${(cx - 8).toFixed(1)}" y2="${(cz + 8).toFixed(1)}" stroke="#9E3B1E" stroke-width="1.4" />`,
-        `  <text x="${(cx + 15).toFixed(1)}" y="${(cz + 3).toFixed(1)}" font-family="monospace" font-size="8" font-weight="bold" fill="#9E3B1E">${obs.label.replace('推論：', '')} (GL-${obs.depthTop}〜-${obs.depthBottom}m)</text>`
+        `  <text x="${(cx + 15).toFixed(1)}" y="${(cz + 3).toFixed(1)}" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8" font-weight="bold" fill="#9E3B1E">${obs.label.replace('推論：', '')} (GL-${obs.depthTop}〜-${obs.depthBottom}m)</text>`
       );
     } else {
       lines.push(
         `  <rect x="${obX.toFixed(1)}" y="${obZ.toFixed(1)}" width="${obW.toFixed(1)}" height="${obD.toFixed(1)}" fill="url(#sub-obstacle-hatch)" stroke="#9E3B1E" stroke-width="2.0" rx="2" />`,
         `  <rect x="${obX.toFixed(1)}" y="${(obZ - 14).toFixed(1)}" width="165" height="13" rx="2" fill="#9E3B1E" />`,
-        `  <text x="${(obX + 4).toFixed(1)}" y="${(obZ - 4.5).toFixed(1)}" font-family="sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF">${obs.label} (GL-${obs.depthTop}〜-${obs.depthBottom}m)</text>`
+        `  <text x="${(obX + 4).toFixed(1)}" y="${(obZ - 4.5).toFixed(1)}" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF">${obs.label} (GL-${obs.depthTop}〜-${obs.depthBottom}m)</text>`
       );
     }
   });
@@ -1068,7 +1068,7 @@ export function renderSubsurfaceSurveyCadSvg(
     const tagText = `${p.label.replace('推論：', '')} [GL-${p.depth1.toFixed(2)}m / 確度${Math.round(p.confidence * 100)}%]`;
     lines.push(
       `  <rect x="${(mx - 105).toFixed(1)}" y="${(mz - 10).toFixed(1)}" width="210" height="14" rx="2" fill="#FFFFFF" fill-opacity="0.88" stroke="${col}" stroke-width="0.9" />`,
-      `  <text x="${mx.toFixed(1)}" y="${(mz + 0.5).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="8" font-weight="bold" fill="${col}">${tagText}</text>`
+      `  <text x="${mx.toFixed(1)}" y="${(mz + 0.5).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8" font-weight="bold" fill="${col}">${tagText}</text>`
     );
   });
 
@@ -1086,7 +1086,7 @@ export function renderSubsurfaceSurveyCadSvg(
       const szPt = oz + sh.z * scale;
       lines.push(
         `  <circle cx="${sxPt.toFixed(1)}" cy="${szPt.toFixed(1)}" r="7" fill="#0284C7" stroke="#FFFFFF" stroke-width="1.5" />`,
-        `  <text x="${(sxPt + 10).toFixed(1)}" y="${(szPt + 3).toFixed(1)}" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0284C7">新築PS引込点</text>`
+        `  <text x="${(sxPt + 10).toFixed(1)}" y="${(szPt + 3).toFixed(1)}" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8.5" font-weight="bold" fill="#0284C7">新築PS引込点</text>`
       );
     });
   }
@@ -1099,7 +1099,7 @@ export function renderSubsurfaceSurveyCadSvg(
 
   lines.push(
     `  <line x1="36" y1="${(secTopY - 32).toFixed(1)}" x2="944" y2="${(secTopY - 32).toFixed(1)}" stroke="#D5D1C8" stroke-width="1" />`,
-    `  <text x="36" y="${(secTopY - 12).toFixed(1)}" font-family="Georgia, serif" font-size="14" font-weight="bold" fill="#1C1B18">`,
+    `  <text x="36" y="${(secTopY - 12).toFixed(1)}" font-family="Georgia, Hiragino Mincho ProN, Yu Mincho, Noto Serif JP, Noto Serif CJK JP, Noto Sans CJK JP, serif" font-size="14" font-weight="bold" fill="#1C1B18">`,
     '    UNDERGROUND STRATUM CROSS-SECTION (GL±0.0m 〜 GL-9.5m 土地断面・埋設深度プロファイル)',
     '  </text>'
   );
@@ -1110,21 +1110,21 @@ export function renderSubsurfaceSurveyCadSvg(
     const h = (sl.depthTo - sl.depthFrom) * depthScale;
     lines.push(
       `  <rect x="${secLeftX}" y="${y1.toFixed(1)}" width="${secW}" height="${h.toFixed(1)}" fill="${sl.colorHex}" fill-opacity="0.28" stroke="#8C7E6A" stroke-width="1.0" />`,
-      `  <text x="${secLeftX + 10}" y="${(y1 + 15).toFixed(1)}" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#2C2B28">${sl.name} (GL-${sl.depthFrom.toFixed(1)}m〜-${sl.depthTo.toFixed(1)}m / ${sl.nValue})</text>`,
-      `  <text x="${secLeftX + 10}" y="${(y1 + 28).toFixed(1)}" font-family="sans-serif" font-size="8.5" fill="#5A574F">${sl.note}</text>`
+      `  <text x="${secLeftX + 10}" y="${(y1 + 15).toFixed(1)}" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="9.5" font-weight="bold" fill="#2C2B28">${sl.name} (GL-${sl.depthFrom.toFixed(1)}m〜-${sl.depthTo.toFixed(1)}m / ${sl.nValue})</text>`,
+      `  <text x="${secLeftX + 10}" y="${(y1 + 28).toFixed(1)}" font-family="Hiragino Sans, Yu Gothic, Meiryo, Noto Sans JP, Noto Sans CJK JP, sans-serif" font-size="8.5" fill="#5A574F">${sl.note}</text>`
     );
   });
 
   // GL±0.0m 地表ライン & 深度目盛り
   lines.push(
     `  <line x1="${secLeftX - 20}" y1="${secTopY}" x2="${secLeftX + secW + 15}" y2="${secTopY}" stroke="#1C1B18" stroke-width="2.5" />`,
-    `  <text x="${secLeftX - 52}" y="${secTopY + 4}" font-family="monospace" font-size="9.5" font-weight="bold" fill="#1C1B18">GL±0.0m</text>`
+    `  <text x="${secLeftX - 52}" y="${secTopY + 4}" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="9.5" font-weight="bold" fill="#1C1B18">GL±0.0m</text>`
   );
   [1.0, 2.0, 3.5, 5.0, 8.5].forEach((d) => {
     const dy = secTopY + d * depthScale;
     lines.push(
       `  <line x1="${secLeftX - 8}" y1="${dy.toFixed(1)}" x2="${secLeftX + secW}" y2="${dy.toFixed(1)}" stroke="#8C8881" stroke-width="0.6" stroke-dasharray="3 3" />`,
-      `  <text x="${secLeftX - 52}" y="${(dy + 3).toFixed(1)}" font-family="monospace" font-size="8.5" fill="#5A574F">GL-${d.toFixed(1)}m</text>`
+      `  <text x="${secLeftX - 52}" y="${(dy + 3).toFixed(1)}" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8.5" fill="#5A574F">GL-${d.toFixed(1)}m</text>`
     );
   });
 
@@ -1135,7 +1135,7 @@ export function renderSubsurfaceSurveyCadSvg(
     const col = pipeColorMap[p.kind] || '#D97706';
     lines.push(
       `  <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="7.5" fill="${col}" stroke="#FFFFFF" stroke-width="1.8" />`,
-      `  <text x="${px.toFixed(1)}" y="${(py - 11).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="8" font-weight="bold" fill="${col}">${p.kind.includes('gas') ? 'ガス管' : p.kind.includes('water') ? '水道管' : '下水管'} GL-${((p.depth1 + p.depth2) / 2).toFixed(2)}m</text>`
+      `  <text x="${px.toFixed(1)}" y="${(py - 11).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="8" font-weight="bold" fill="${col}">${p.kind.includes('gas') ? 'ガス管' : p.kind.includes('water') ? '水道管' : '下水管'} GL-${((p.depth1 + p.depth2) / 2).toFixed(2)}m</text>`
     );
   });
 
@@ -1146,7 +1146,7 @@ export function renderSubsurfaceSurveyCadSvg(
     const owSec = obs.kind === 'old_pile' ? 16 : 44;
     lines.push(
       `  <rect x="${oxSec.toFixed(1)}" y="${oyTop.toFixed(1)}" width="${owSec}" height="${oyH.toFixed(1)}" fill="url(#sub-obstacle-hatch)" stroke="#9E3B1E" stroke-width="1.6" />`,
-      `  <text x="${(oxSec + owSec / 2).toFixed(1)}" y="${(oyTop + oyH + 11).toFixed(1)}" text-anchor="middle" font-family="monospace" font-size="7.5" font-weight="bold" fill="#9E3B1E">${obs.kind === 'old_pile' ? '旧残置杭' : '地中障害物'}</text>`
+      `  <text x="${(oxSec + owSec / 2).toFixed(1)}" y="${(oyTop + oyH + 11).toFixed(1)}" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, Noto Sans Mono CJK JP, Noto Sans CJK JP, monospace" font-size="7.5" font-weight="bold" fill="#9E3B1E">${obs.kind === 'old_pile' ? '旧残置杭' : '地中障害物'}</text>`
     );
   });
 

@@ -177,6 +177,9 @@ cd project && npm ci && cd ..
 python3 start_studio.py          # 停止: python3 start_studio.py --stop
 ```
 
+### 対応ブラウザ
+Chrome / Edge 111+、Safari 16.4+（iOS含む）、Firefox 128+。スマホ・タブレットではタッチ操作（地図のドラッグ・ピンチ、3Dの回転・ピンチズーム）に対応しています。
+
 ### Cloudflare へのデプロイ
 - **フロント（Pages）**: `cd project && npm run build && npx wrangler pages deploy dist --project-name stratum-geo-bim --branch main`
   - `project/functions/api/[[path]].js` が `/api/*` をバックエンドの Worker に転送します。

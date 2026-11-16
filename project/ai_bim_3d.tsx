@@ -1684,7 +1684,8 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
       const mimeTypes = [
         'video/webm;codecs=vp9',
         'video/webm;codecs=vp8',
-        'video/webm'
+        'video/webm',
+        'video/mp4'
       ];
       const supportedMime = mimeTypes.find((m) => MediaRecorder.isTypeSupported(m)) || '';
       const recorder = supportedMime
@@ -1696,13 +1697,15 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
         if (e.data && e.data.size > 0) chunks.push(e.data);
       };
       recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
+        const type = recorder.mimeType || 'video/webm';
+        const blob = new Blob(chunks, { type });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `stratum_demo_${buildingData.site.width}x${buildingData.site.depth}m.webm`;
+        a.download = `stratum_demo_${buildingData.site.width}x${buildingData.site.depth}m.${type.includes('mp4') ? 'mp4' : 'webm'}`;
         a.click();
-        URL.revokeObjectURL(url);
+        // 即時に解放すると Safari / Firefox で保存が失敗することがある
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
         setIsRecording(false);
         setRecordingSecLeft(0);
       };
@@ -1787,14 +1790,36 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let pointerDownPos = { x: 0, y: 0 };
+    // タッチの2本指ピンチでズームするため、押下中のポインタを追跡する
+    const activePointers = new Map<number, { x: number; y: number }>();
+    let pinchStart: { dist: number; radius: number } | null = null;
+    const pinchDistance = () => {
+      const [a, b] = [...activePointers.values()];
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    };
 
     const onPointerDown = (e: PointerEvent) => {
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (activePointers.size === 2) {
+        pinchStart = { dist: pinchDistance(), radius: sphericalRef.current.radius };
+        isDraggingCameraRef.current = false;
+        return;
+      }
       isDraggingCameraRef.current = true;
       prevMouseRef.current = { x: e.clientX, y: e.clientY };
       pointerDownPos = { x: e.clientX, y: e.clientY };
     };
 
     const onPointerMove = (e: PointerEvent) => {
+      if (activePointers.has(e.pointerId)) activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pinchStart && activePointers.size === 2) {
+        const dist = pinchDistance();
+        if (dist > 0) {
+          sphericalRef.current.radius = Math.max(13, Math.min(52, (pinchStart.radius * pinchStart.dist) / dist));
+          updateCameraPosition();
+        }
+        return;
+      }
       if (!isDraggingCameraRef.current) return;
       const dx = e.clientX - prevMouseRef.current.x;
       const dy = e.clientY - prevMouseRef.current.y;
@@ -1806,6 +1831,14 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
     };
 
     const onPointerUp = (e: PointerEvent) => {
+      activePointers.delete(e.pointerId);
+      if (pinchStart) {
+        // ピンチ終了時は選択（タップ判定）を行わない
+        if (activePointers.size < 2) pinchStart = null;
+        isDraggingCameraRef.current = false;
+        return;
+      }
+      if (!isDraggingCameraRef.current) return;
       isDraggingCameraRef.current = false;
       const moveDist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
       if (moveDist < 5) {
@@ -1826,14 +1859,19 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      sphericalRef.current.radius = Math.max(13, Math.min(52, sphericalRef.current.radius + e.deltaY * 0.015));
+      // Firefox は行単位 (deltaMode=1) で届くためピクセル相当に換算する
+      const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      sphericalRef.current.radius = Math.max(13, Math.min(52, sphericalRef.current.radius + dy * 0.015));
       updateCameraPosition();
     };
 
     const domElem = renderer.domElement;
+    // スマホでドラッグがページのスクロール/拡大に奪われないようにする
+    domElem.style.touchAction = 'none';
     domElem.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
     domElem.addEventListener('wheel', onWheel, { passive: false });
 
     const handleResize = () => {
@@ -1862,6 +1900,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
       domElem.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
       domElem.removeEventListener('wheel', onWheel);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
@@ -2416,7 +2455,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-canvas text-slate-100 overflow-hidden select-none antialiased">
+    <div className="flex flex-col h-dvh w-full bg-canvas text-slate-100 overflow-hidden select-none antialiased">
       {/* ==================== トップバー（ダークGIS・タブレット対応ヘッダー） ==================== */}
       <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-canvas border-b border-white/10 z-20">
         <div className="flex items-center gap-3">
@@ -3276,7 +3315,7 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
         {/* ==================== 2D CAD (SVG) 建築設計図プレビューモーダル ==================== */}
         {showSvgModal && (
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 z-30">
-            <div className="bg-surface ring-1 ring-white/20 rounded-2xl w-full max-w-5xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+            <div className="bg-surface ring-1 ring-white/20 rounded-2xl w-full max-w-5xl max-h-[88dvh] flex flex-col shadow-2xl overflow-hidden">
               <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/10 bg-canvas">
                 <div>
                   <h3 className="text-sm font-bold text-white">

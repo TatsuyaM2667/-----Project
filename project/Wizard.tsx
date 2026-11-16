@@ -380,7 +380,7 @@ export default function Wizard({ onOpenStudio, onBackToWelcome, initialLand }: W
   };
 
   return (
-    <div className="min-h-screen w-full bg-canvas text-slate-100 antialiased">
+    <div className="min-h-dvh w-full bg-canvas text-slate-100 antialiased">
       {/* ヘッダー */}
       <header className="sticky top-0 z-30 border-b border-white/10 bg-canvas/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">

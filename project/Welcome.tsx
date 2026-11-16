@@ -59,7 +59,7 @@ export default function Welcome({ onStartWizard, onLaunchDemoTour }: WelcomeProp
   const { analysis, svg } = useSiteDrawing(active);
 
   return (
-    <div className="min-h-screen w-full bg-canvas text-slate-100 antialiased flex flex-col">
+    <div className="min-h-dvh w-full bg-canvas text-slate-100 antialiased flex flex-col">
       <header className="absolute inset-x-0 top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
