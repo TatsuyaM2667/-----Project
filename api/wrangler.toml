@@ -1,0 +1,6 @@
+# バックエンド API (backend/server.py) を Cloudflare Python Workers で公開する設定
+# デプロイ: cd api && ../.venv/bin/pywrangler deploy   （フロントは project/ を Pages にデプロイ）
+name = "stratum-geo-bim-api"
+main = "../backend/worker_entry.py"
+compatibility_date = "2025-11-01"
+compatibility_flags = ["python_workers"]

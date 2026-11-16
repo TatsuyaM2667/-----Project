@@ -177,6 +177,12 @@ cd project && npm ci && cd ..
 python3 start_studio.py          # 停止: python3 start_studio.py --stop
 ```
 
+### Cloudflare へのデプロイ
+- **フロント（Pages）**: `cd project && npm run build && npx wrangler pages deploy dist --project-name stratum-geo-bim --branch main`
+  - `project/functions/api/[[path]].js` が `/api/*` をバックエンドの Worker に転送します。
+- **バックエンド（Python Workers）**: `cd api && ../.venv/bin/pywrangler deploy`（`.venv` に `pip install uv workers-py` が必要）
+  - `backend/server.py` の FastAPI をそのまま動かします。ローカルの Ollama / vLLM には接続できないため、ルールベースの生成器で応答します。
+
 ### 方法A：ワンコマンド自動起動（推奨）
 バックエンド（FastAPI: Port `8000`）とフロントエンド（Vite: Port `5173`）をバックグラウンドで同時起動し、ヘルスチェック完了後に自動でブラウザを開きます。
 

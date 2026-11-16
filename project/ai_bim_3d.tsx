@@ -2580,6 +2580,23 @@ export default function App({ initialBlueprint, initialPrompt, autoStartDemo = f
 
       {/* ==================== メインワークスペース ==================== */}
       <div className="flex-1 flex overflow-hidden relative">
+        {/* 画面端のタブ：閉じているパネルの存在と開き方が一目で分かるようにする（開くとドロワーが上に重なる） */}
+        <button
+          onClick={() => setLeftOpen(true)}
+          aria-label="設定パネルを開く"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 rounded-r-lg bg-surface ring-1 ring-white/15 shadow-lg px-2 py-4 flex flex-col items-center gap-2 text-sm font-medium text-slate-200 hover:bg-raised hover:text-white transition cursor-pointer"
+        >
+          <PanelLeft className="w-4 h-4 text-cyan-400" />
+          <span className="[writing-mode:vertical-rl] tracking-widest">設定</span>
+        </button>
+        <button
+          onClick={() => setRightOpen(true)}
+          aria-label="部屋の詳細パネルを開く"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 rounded-l-lg bg-surface ring-1 ring-white/15 shadow-lg px-2 py-4 flex flex-col items-center gap-2 text-sm font-medium text-slate-200 hover:bg-raised hover:text-white transition cursor-pointer"
+        >
+          <PanelRight className="w-4 h-4 text-cyan-400" />
+          <span className="[writing-mode:vertical-rl] tracking-widest">部屋</span>
+        </button>
         {/* 左サイドパネル：地下埋設AI推論＆レイヤー制御 */}
         <aside
           inert={!leftOpen}

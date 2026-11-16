@@ -20,3 +20,8 @@ logs/
 .DS_Store
 Thumbs.db
 
+
+# Cloudflare Python Workers
+python_modules/
+.wrangler/
+.venv-workers/
