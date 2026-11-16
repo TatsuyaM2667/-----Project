@@ -57,9 +57,9 @@ const LAYERS: Record<BaseLayer, { label: string; url: (z: number, x: number, y: 
   }
 };
 
-const TILE = 256;
-const lngToPx = (lng: number, z: number) => ((lng + 180) / 360) * TILE * 2 ** z;
-const latToPx = (lat: number, z: number) => {
+export const TILE = 256;
+export const lngToPx = (lng: number, z: number) => ((lng + 180) / 360) * TILE * 2 ** z;
+export const latToPx = (lat: number, z: number) => {
   const r = (lat * Math.PI) / 180;
   return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * TILE * 2 ** z;
 };
